@@ -1,0 +1,133 @@
+        /* 新的菜单样式 - 卡片式设计 */
+        .category-container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        /* 分类组样式 */
+        .category-section {
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 分类标题样式 */
+        .section-header {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #4a90e2;
+        }
+        .section-header h3 {
+            margin: 0;
+            font-size: 24px;
+            color: #333;
+            font-weight: 700;
+            display: inline-block;
+            position: relative;
+            padding-right: 20px;
+        }
+        .section-header h3::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            background-color: #4a90e2;
+            border-radius: 50%;
+        }
+        
+        /* 分类链接网格布局 */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        
+        /* 分类链接卡片样式 */
+        .category-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 卡片悬停效果 */
+        .category-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+        
+        /* 卡片图标样式 */
+        .category-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+            display: block;
+            opacity: 0.9;
+        }
+        
+        /* 卡片文字样式 */
+        .category-name {
+            font-size: 16px;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        /* 卡片装饰元素 */
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, transparent 50%, rgba(255,255,255,0.1) 100%);
+            transform: rotate(45deg);
+            transition: all 0.6s ease;
+            opacity: 0;
+        }
+        
+        .category-card:hover::before {
+            opacity: 1;
+        }
+        
+        /* 不同类别的渐变背景颜色 */
+        .category-card:nth-child(2n) {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .category-card:nth-child(3n) {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        .category-card:nth-child(4n) {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .category-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+                gap: 10px;
+            }
+            .section-header h3 {
+                font-size: 20px;
+            }
+            .category-card {
+                padding: 15px 10px;
+            }
+            .category-icon {
+                font-size: 28px;
+                margin-bottom: 8px;
+            }
+            .category-name {
+                font-size: 14px;
+            }
+        }

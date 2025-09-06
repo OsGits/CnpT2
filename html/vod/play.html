@@ -1,0 +1,332 @@
+{include file="html/mi"}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$obj.vod_name} {$obj['vod_play_list'][$param['sid']]['urls'][$param['nid']]['name']}({$obj.vod_year}{$obj.vod_area}{$obj.type.type_name}) {$obj.vod_remarks}免费在线播放  | {$maccms.site_name}</title>
+    <link href="{$maccms.path}static/css/home.css" rel="stylesheet" type="text/css" /><script src="{$maccms.path}static/js/jquery.js"></script><script src="{$maccms.path}static/js/jquery.lazyload.js"></script><script src="{$maccms.path}static/js/jquery.autocomplete.js"></script><script>var maccms={"path":"__ROOT__","mid":"{$maccms['mid']}","aid":"{$maccms['aid']}","url":"{$maccms['site_url']}","wapurl":"{$maccms['site_wapurl']}","mob_status":"{$maccms['mob_status']}"};</script><script src="{$maccms.path}static/js/home.js"></script><style>body {display: block;margin: 0px;}</style>
+	<meta name="keywords" content="{$obj.vod_name},{$obj.type.type_name},{$obj.vod_remarks}在线播放,{$obj.vod_name}详情介绍,{$obj.vod_name}下载,{$obj.vod_tag}">
+	<meta name="description" content="{$obj.vod_name} | {$obj.vod_blurb}...">  
+    
+    <link rel="stylesheet" href="{$maccms.path_tpl}play.css?{include file="html/bb"}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+	
+</head>
+<body style="background-image: url('{:mac_url_img($obj.vod_pic)}');">
+    
+    
+    <div class="container">
+        
+        
+        <div class="video-container" style="position: relative; width: 100%; padding-top: 56.25%;">
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                {$player_data}{$player_js}
+            </div>
+        </div>
+        
+       
+        <div class="line-title">
+    当前：{$obj.vod_name} {$obj['vod_play_list'][$param['sid']]['urls'][$param['nid']]['name']}
+</div>
+        
+        
+
+        <a href="{:mac_url_vod_detail($obj)}" class="episode-btn prev-episode5">详信息</a>
+        
+        <a class="episode-btn prev-episode3" onclick="document.querySelector('#p2').scrollIntoView({behavior: 'smooth'})">选集数</a>
+
+        <a href="{$obj.player_info.link_pre}" class="episode-btn prev-episode4">上一集</a>
+        
+        <a href="{$obj.player_info.link_next}" class="episode-btn prev-episode1">下一集</a>
+        
+
+        <div style="text-align: center;">
+        </div>
+<br id="p2">
+
+        <style>
+        .episode-btn {
+            display: inline-block;
+            padding: 1px 5px;
+            margin: 1px;
+            background-color: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        .episode-btn:hover {
+            background-color: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .prev-episode4 {
+            background-color: #2196F3;
+        }
+        .prev-episode1 {
+            background-color: #027c6c;
+        }
+        .prev-episode2 {
+            background-color: #6a08eb;
+        }
+        .prev-episode3 {
+            background-color: #795903;
+        }
+        .prev-episode5 {
+            background-color: #790352;
+        }
+        .prev-episode:hover {
+            background-color: #0b7dda;
+        }
+        
+        </style>
+        <br><br>
+
+
+
+<div style="margin-left: 1em;margin-right: 1em;">
+{maccms:foreach name="obj.vod_play_list" id="vo" key="key"}
+{if condition="$vo.sid eq $param.sid"}
+<div class="line-title">
+    当前线路：{$vo.player_info.show}.<a class="episode-btn prev-episode2" onclick="document.querySelector('#ghxl').scrollIntoView({behavior: 'smooth'})">↺更换线路</a> 
+</div>
+{maccms:foreach name="vo.urls" id="vo2" key="key2"}
+
+<a href="{:mac_url_vod_play($obj,['sid'=>$vo.sid,'nid'=>$vo2.nid])}" class="video-link{if condition="$param.sid eq $vo.sid && $param.nid eq $vo2.nid"}-active{/if}" title="播放{$obj.vod_name}{$vo2.name}">{$vo2.name}</a>
+
+{/maccms:foreach}
+
+{/if}
+{/maccms:foreach}
+</div>
+
+
+
+        <div style="height:25em;"></div>
+        
+
+        <!-- 在第二页开始显示 -->
+
+<div style="page-break-before: always; height: 80vh;"></div>
+
+
+<br id="ghxl"><br><br>
+<div class="line-title">播放线路选择：</div>
+<div style="height:1em;"></div>
+<!--线路选择--->
+
+
+{maccms:foreach name="obj.vod_play_list" id="vo" key="key"}
+{if condition="$vo.sid eq $param.sid"}
+<a class="line-title2" > 
+<b>√〔{$vo.player_info.show}〕</b>
+</a>
+<u class="line-title3">该线路更新视频数量为「{$vo.url_count}」</u>
+<div style="height:1em;"></div>
+{else/}
+<a class="line-title2" href="{:mac_url_vod_play($obj,['sid'=>$vo.sid,'nid'=>$vo2.nid])}">    
+ ➢〔{$vo.player_info.show}〕 
+</a>
+<u class="line-title3">该线路更新视频数量为「{$vo.url_count}」</u>
+<div style="height:1em;"></div>
+{/if}
+{/maccms:foreach}
+
+
+
+<style>
+  .line-title {
+    text-shadow: 2px 2px 5px #000000b0;
+    font-size: 16px; font-weight: bold; margin: 15px 0 10px; color: #00a862; padding-left: 5px; border-left: 3px solid #4CAF50;
+  }
+  .line-title2 {
+    text-shadow: 2px 2px 5px #000000b0;
+    font-size: 15px; text-decoration: none; margin: 15px 0 10px; color: #00a862; padding-left: 30px; 
+  }
+   .line-title2s {
+    text-shadow: 2px 2px 5px #000000b0;
+    font-size: 15px; text-decoration: none; font-weight: bold; margin: 15px 0 10px; color: #00a862; padding-left: 30px; 
+  }
+  .line-title3 {
+    text-shadow: 2px 2px 5px #000000b0;
+    font-size: 12px; text-decoration: none; margin: 15px 0 10px; color: #b1b1b1; padding-left: 2px; 
+  }
+    .video-link-active{
+    font-size: 16px; font-weight: bold; margin: 15px 0 10px; color: #00408a; padding-left: 5px; border-left: 3px solid #4CAF50;
+    display: inline-block; padding: 8px 15px; margin: 0 8px 8px 0; background: #f5f5f5; color: #666; text-decoration: none; border-radius: 4px;
+     background: #4CAF50; color: white; transform: translateY(-2px); box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+    
+  .video-link {
+    display: inline-block; padding: 8px 15px; margin: 0 8px 8px 0; background: #f5f5f5; color: #666; text-decoration: none; border-radius: 4px;
+  }
+  .video-link:hover {
+    background: #4CAF50; color: white; transform: translateY(-2px); box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+</style>
+
+<div style="height:25em;"></div>
+</div>
+        
+    </div>
+    <style>
+        .bfan {
+    display: inline-block;
+    padding: 2px 3px;
+    background-color: #ffffff6e;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    margin: 5px;
+    text-align: center; 
+        }
+
+
+    </style>
+
+    <script src="{$maccms.path_tpl}d.js?{include file="html/bb"}"></script>
+    <style>
+/* 弹出菜单样式 */
+.menu-box {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    padding: 20px;
+    min-width: 280px;
+    max-height: 80vh;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+}
+
+.menu-item {
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eee;
+}
+
+.menu-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.menu-item h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 16px;
+    color: #333;
+    font-weight: bold;
+    padding-left: 10px;
+    border-left: 3px solid #4CAF50;
+}
+
+.menu-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.menu-links a {
+    display: inline-block;
+    padding: 6px 12px;
+    background-color: #f5f5f5;
+    color: #666;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+.menu-links a:hover {
+    background-color: #4CAF50;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* 浮动按钮样式 */
+.float-buttons {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    z-index: 999;
+}
+.float-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 0;
+    background-color: #222;
+    color: rgb(255, 255, 255);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    transition: all 0.3s;
+}
+.btn-text {
+    font-size: 12px;
+    margin-top: 5px;
+}
+.float-btn:hover {
+    background-color: rgba(0,0,0,0.9);
+    transform: scale(1.1);
+}
+@font-face {
+font-family: 'CustomFont'; /* 自定义字体名称 */
+src: url('/template/blockdole.woff') format('woff'); /* 自定义字体文件路径和格式 */
+}
+body {
+font-family: 'CustomFont', sans-serif; /* 使用自定义字体，如果加载失败则使用备用字体 */
+}
+</style>
+<div class="float-buttons">
+    <div class="float-btn" onclick="document.querySelector('#p2').scrollIntoView({behavior: 'smooth'})"><i class="fas fa-play"></i><span class="btn-text">选集</span></div>
+    <div class="float-btn" onclick="window.location.href='/'"><i class="fas fa-home"></i><span class="btn-text">首页</span></div>
+    <div class="float-btn" onclick="window.location.href='{:mac_url_vod_detail($obj)}'"><i class="fas fa-arrow-left"></i><span class="btn-text">返回</span></div>
+    <div class="float-btn" onclick="toggleMenu()"><i class="fas fa-bars"></i><span class="btn-text">菜单</span></div>
+    <div id="menuBox" class="menu-box" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1000;">
+        <!-- 关闭按钮 -->
+        <button id="closeMenuBtn" class="close-menu-btn" onclick="toggleMenu()" style="position: absolute; top: 15px; right: 15px; background: #667eea; color: white; border: none; border-radius: 50%; width: 36px; height: 36px; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease;">
+            <i class="fas fa-times"></i>
+        </button>
+        
+        {maccms:type ids="20,21,22,23,60" order="asc" by="sort" id="vo1" key="key1"}
+          <div class="menu-item">
+              <h3>{$vo1.type_name}</h3>
+              {if condition="$key1 lt 30"}
+              <div class="menu-links">
+                  {maccms:type parent="'.$vo1['type_id'].'" order="asc" by="sort" id="vo2" key="key2"}
+                  <a href="{:mac_url_type($vo2)}">📂{$vo2.type_name}</a>
+                  {/maccms:type}
+              </div>
+              {/if}
+          </div>
+          {/maccms:type}
+    </div>
+    <script>
+        function toggleMenu() {
+            const menuBox = document.getElementById('menuBox');
+            menuBox.style.display = menuBox.style.display === 'block' ? 'none' : 'block';
+        }
+        // 点击页面其他地方关闭菜单
+        document.addEventListener('click', function(event) {
+            const menuBox = document.getElementById('menuBox');
+            const menuBtn = document.querySelector('.float-btn:nth-child(4)');
+            if (!menuBox.contains(event.target) && !menuBtn.contains(event.target)) {
+                menuBox.style.display = 'none';
+            }
+        });
+    </script>
+    <div class="float-btn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})"><i class="fas fa-arrow-up"></i><span class="btn-text">顶部</span></div>
+</div>
+   
+</body>
+</html>

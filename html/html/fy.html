@@ -1,0 +1,34 @@
+
+{if condition="$__PAGING__.record_total gt 0"}
+<ul class="pagination">
+    <div class="layui-box layui-laypage layui-laypage-default">
+        <div>
+
+            <span class="rows">{$__PAGING__.record_total}条记录 当前{$__PAGING__.page_current}/{$__PAGING__.page_total}页</span>
+            
+            <a href="{$__PAGING__.page_url|mac_url_page=$__PAGING__.page_prev}">上1页</a>
+            <a href="{$__PAGING__.page_url|mac_url_page=$__PAGING__.page_next}">下1页</a>
+            <br>
+            <center>
+            {maccms:foreach name="$__PAGING__.page_num" id="num"}
+            {if condition="$__PAGING__['page_current'] eq $num"}
+            <a class="current"><b>{$num}</b></a>
+            {else}
+            <a href="{$__PAGING__.page_url|mac_url_page=$num}">{$num}</a>
+            {/if}
+            {/maccms:foreach}
+            </center>
+            
+
+        </div>
+    </div>        
+</ul>
+{else/}
+<ul class="pagination">
+    <div class="layui-box layui-laypage layui-laypage-default">
+        <div>
+            <span class="rows">没有找到匹配数据</span>
+        </div>
+    </div>        
+</ul>
+{/if}

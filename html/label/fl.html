@@ -1,0 +1,81 @@
+
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>分类 | {$maccms.site_name} | {$maccms.site_description}!</title>    
+    <meta name="keywords" content="{$maccms.site_keywords}" />
+    <meta name="description" content="{$maccms.site_description}" />
+    {include file="html/in"}
+    <link rel="stylesheet" href="{$maccms.path_tpl}fy.css">
+    <style>
+        /* 背景图片 - 使用伪元素实现模糊效果 */
+        body {
+            background-color: #000;
+            color: #333;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('{maccms:vod num="1" paging="yes" pageurl="index/index" type="" order="desc" by="time" level=""} {:mac_url_img($vo.vod_pic)}{/maccms:vod}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(8px);
+            -webkit-filter: blur(8px);
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        /* 确保页面内容在背景之上 */
+        .container {
+            position: relative;
+            z-index: 1;
+           
+            min-height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            {include file="html/dh"}
+        </header>
+
+            <div class="category-container">
+            {maccms:type ids="20,21,22,23,60" order="asc" by="sort" id="vo1" key="key1"}                    
+                <div class="category-section">
+                    <div class="section-header">
+                        <h3>{$vo1.type_name}</h3>
+                    </div>
+                    {if condition="$key1 lt 30"}                        
+                        <div class="category-grid">
+                            {maccms:type parent="'. $vo1['type_id'].'" order="asc" by="sort" id="vo2" key="key2"} 
+                            <a href="{:mac_url_type($vo2)}" class="category-card">
+                                <span class="category-icon">📁</span>
+                                <span class="category-name">{$vo2.type_name}</span>
+                            </a>
+                            {/maccms:type}
+                        </div>                       
+                    {/if}
+                </div>                    
+            {/maccms:type}
+            </div>
+        
+        
+        {include file="html/f"}
+    </div>  
+
+</body>
+
+</html>

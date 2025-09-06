@@ -1,0 +1,418 @@
+{include file="html/mi"}
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{$obj.vod_name} | {$maccms.site_name} | {$maccms.site_description}!</title>    
+    <meta name="keywords" content="{$obj.vod_name},{$obj.vod_actor},{$obj.vod_director},{$maccms.site_keywords}" />
+    <meta name="description" content="{$obj.vod_name}是{$obj.vod_actor}和{$obj.vod_director}合作的一部影片，{$obj.vod_content|mac_url_content_img}" />
+    {include file="html/in"}
+    <style>
+        /* 网页背景样式 */
+        body {
+            background-color: #000;
+            color: #333;
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* 背景图片 - 使用伪元素实现模糊效果 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('{:mac_url_img($obj.vod_pic)}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(8px);
+            -webkit-filter: blur(8px);
+            opacity: 0.3;
+            z-index: -1;
+        }
+        
+        /* 确保页面内容在背景之上 */
+        .container {
+            position: relative;
+            z-index: 1;
+            
+            min-height: 100vh;
+        }
+        
+        /* 影视详情页样式 */
+        .detail-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        /* 影视信息卡片 */
+        .movie-info-card {
+            background-color: #ffffff96;
+            border-radius: 5px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+        
+        /* 影视信息头部 */
+        .movie-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .movie-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin: 0 0 10px 0;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        /* 影视信息主体 */
+        .movie-body {
+            padding: 30px;
+        }
+        
+        /* 信息网格布局 */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        /* 信息项样式 */
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .info-item:hover {
+            background-color: #e9ecef;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #555;
+            margin-right: 10px;
+            min-width: 70px;
+            flex-shrink: 0;
+        }
+        
+        .info-value {
+            flex: 1;
+            color: #333;
+            line-height: 1.5;
+        }
+        
+        /* 链接样式 */
+        .info-value a {
+            color: #667eea;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .info-value a:hover {
+            color: #764ba2;
+            text-decoration: underline;
+        }
+        
+        /* 高亮状态文本 */
+        .status-highlight {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+        
+        /* 访问量样式 */
+        .hits-count {
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+        
+        /* 全宽信息项样式 */
+        .info-item-full-width {
+            grid-column: 1 / -1; /* 跨越整个网格宽度 */
+        }
+        
+        /* 海报样式 */
+        .movie-poster {
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .movie-poster img {
+            max-width: 100%;
+            max-height: 400px;
+            border-radius: 5px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        
+        .movie-poster img:hover {
+            transform: scale(1.02);
+        }
+        
+        /* 内容介绍样式 */
+        .content-intro {
+            margin-top: 30px;
+            padding: 25px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            line-height: 1.8;
+        }
+        
+        .content-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        .content-text {
+            color: #555;
+            text-align: justify;
+        }
+        
+        /* 响应式海报 */
+        @media (max-width: 768px) {
+            .movie-poster img {
+                max-height: 300px;
+            }
+            
+            .content-intro {
+                padding: 20px 15px;
+            }
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .detail-container {
+                margin: 20px auto;
+                padding: 0 15px;
+            }
+            
+            .movie-header {
+                padding: 20px;
+            }
+            
+            .movie-title {
+                font-size: 24px;
+            }
+            
+            .movie-body {
+                padding: 20px;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .info-item {
+                padding: 12px;
+            }
+        }
+        
+        /* 动画效果 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .movie-info-card {
+            animation: fadeIn 0.6s ease-out;
+        }
+        
+        .info-item {
+            animation: fadeIn 0.4s ease-out;
+        }
+        
+        /* 延迟动画 */
+        .info-item:nth-child(2) { animation-delay: 0.1s; }
+        .info-item:nth-child(3) { animation-delay: 0.2s; }
+        .info-item:nth-child(4) { animation-delay: 0.3s; }
+        .info-item:nth-child(5) { animation-delay: 0.4s; }
+        .info-item:nth-child(6) { animation-delay: 0.5s; }
+        .info-item:nth-child(7) { animation-delay: 0.6s; }
+        .info-item:nth-child(8) { animation-delay: 0.7s; }
+        
+        /* 播放线路标题 */
+        .line-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #667eea;
+        }
+        
+        /* 播放线路按钮样式 */
+        .line-title2 {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            margin-right: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .line-title2:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            color: white;
+        }
+        
+        .line-title2:active {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+        }
+        
+        /* 线路集数信息 */
+        .line-title3 {
+            display: inline-block;
+            color: #666;
+            font-size: 14px;
+            margin-left: 10px;
+            margin-bottom: 15px;
+            text-decoration: none;
+            font-weight: normal;
+        }
+        
+        /* 播放线路容器 */
+        .play-lines-container {
+            margin-top: 20px;
+        }
+        
+        /* 响应式播放线路按钮 */
+        @media (max-width: 768px) {
+            .line-title2 {
+                display: block;
+               
+                text-align: center;
+                margin-right: 0;
+                margin-bottom: 12px;
+                padding: 10px 20px;
+                font-size: 15px;
+            }
+            
+            .line-title3 {
+                display: block;
+                text-align: center;
+                margin-left: 0;
+                margin-bottom: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            {include file="html/dh"}
+        </header>
+
+        <div class="detail-container">
+            <div class="movie-info-card">
+                <div class="movie-header">
+                    <h1 class="movie-title">{$obj.vod_name}</h1>
+                    <div class="movie-poster">
+                      <img src="{:mac_url_img($obj.vod_pic)}" alt="{$obj.vod_name}" title="{$obj.vod_name}">
+                    </div>
+                  </div>
+                <div class="movie-body">
+                    <div class="info-grid">
+
+                        <div class="info-item info-item-full-width">
+                            <div class="info-label">主演：</div>
+                            <div class="info-value">{$obj.vod_actor|mac_url_create='actor'}</div>
+                        </div>
+                        
+                        <div class="info-item info-item-full-width">
+                            <div class="info-label">导演：</div>
+                            <div class="info-value">{$obj.vod_director|mac_url_create='director'}</div>
+                        </div>
+
+                        
+                        <div class="info-item">
+                            <div class="info-label">状态：</div>
+                            <div class="info-value">
+                                <span class="status-highlight">{if condition="$obj.vod_serial gt 0"}第{$obj.vod_serial}集/共{$obj.vod_total}集{else/}{$obj.vod_remarks}{/if}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">类型：</div>
+                            <div class="info-value">{$obj.vod_class|mac_url_create='class'}</div>
+                        </div>
+                        
+                        
+                        
+                        <div class="info-item">
+                            <div class="info-label">地区：</div>
+                            <div class="info-value">{$obj.vod_area|mac_url_create='area'}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">语言：</div>
+                            <div class="info-value">{$obj.vod_lang|mac_url_create='lang'}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">年份：</div>
+                            <div class="info-value">{$obj.vod_year|mac_url_create='year'}</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">更新：</div>
+                            <div class="info-value"><span id="addtime">{$obj.vod_time|date='Y-m-d',###}</span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="content-intro">
+                        <h3 class="content-title">影片介绍</h3>
+                        <div class="content-text">
+                            {$obj.vod_content|mac_url_content_img}
+                        </div>
+                    </div>
+                
+                <div class="line-title">播放线路选择：</div>
+
+{maccms:foreach name="obj.vod_play_list" id="vo" key="key"}
+<a href="{:mac_url_vod_play($obj,['sid'=>$vo.sid,'nid'=>$vo2.nid])}" class="line-title2">➢〔
+{$vo.player_info.show}〕该线路更新「{$vo.url_count}」集视频！
+</a>
+{/maccms:foreach}
+                </div>
+            </div>
+        </div>
+        
+        
+        {include file="html/f"}
+    </div>  
+
+</body>
+
+</html>

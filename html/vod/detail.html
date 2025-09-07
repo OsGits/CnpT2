@@ -118,15 +118,15 @@
             line-height: 1.5;
         }
         
-        /* 链接样式 */
+        /* 链接样式 - 与非链接文字颜色保持一致 */
         .info-value a {
-            color: #667eea;
+            color: inherit;
             text-decoration: none;
             transition: color 0.3s ease;
         }
         
         .info-value a:hover {
-            color: #764ba2;
+            color: #667eea;
             text-decoration: underline;
         }
         
@@ -219,7 +219,7 @@
             }
             
             .info-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
                 gap: 15px;
             }
             
@@ -331,7 +331,18 @@
 <body>
     <div class="container">
         <header>
+            <ul class="nav">
             {include file="html/dh"}
+    <li>
+    <a href="{:mac_url_type($obj.type)}" class="nav-button">
+    <span class="nav-icon">
+      <svg t="1757253734655" class="icon" viewBox="0 0 1280 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5393" width="25" height="25"><path d="M999.232 462.912c68.48 40.896 152.32 151.04 187.264 283.776 34.944 132.736 29.12 251.52 29.12 251.52s-45.184-73.152-63.552-98.816c-18.304-25.6-95.552-121.216-215.424-176.64-119.936-55.36-320.32-45.44-320.32-45.44v255.552a40 40 0 0 1-67.072 29.44L95.744 545.088a40 40 0 0 1-0.192-58.688L548.992 62.848a40 40 0 0 1 67.328 29.248v264.512s132.672 9.984 202.048 24.384c116.8 24.32 180.864 81.92 180.864 81.92z" fill="#F20082" p-id="5394"></path></svg>
+    </span>
+    <span class="nav-text">{$obj.type.type_name}</span>
+    </a>
+    </li>
+            </ul>
+            <br>
         </header>
 
         <div class="detail-container">
@@ -387,7 +398,7 @@
                         
                         <div class="info-item">
                             <div class="info-label">更新：</div>
-                            <div class="info-value"><span id="addtime">{$obj.vod_time|date='Y-m-d',###}</span></div>
+                            <div class="info-value"><span id="addtime">{$obj.vod_time|date='m/d',###}</span></div>
                         </div>
                     </div>
                     

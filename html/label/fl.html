@@ -40,8 +40,48 @@
         .container {
             position: relative;
             z-index: 1;
-           
+            
             min-height: 100vh;
+        }
+        
+        /* 分类标题样式 */
+        .section-header h3 {
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            font-weight: bold;
+        }
+        
+        /* 小尺寸分类卡片样式 */
+        .category-card {
+            display: inline-block;
+            padding: 6px 12px;
+            margin: 4px;
+            border-radius: 4px;
+            text-decoration: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 12px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .category-card:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .category-icon {
+            font-size: 14px;
+            margin-right: 4px;
+            display: inline-block;
+        }
+        
+        .category-name {
+            font-size: 15px;
+            line-height: 1.2;
         }
     </style>
 </head>

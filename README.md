@@ -1,5 +1,5 @@
 # CnpT2
-
+![CnpT2](https://cnp.cc/data/attachment/forum/202509/08/220044mpzw2f2bwssuukpu.jpg)
 ## MacCmsV10瀑布流风格模板
 
 这是一款基于 MacCmsV10 开发的现代化视频网站模板，采用了**全终端响应式布局**和**瀑布流展示方式**，为用户带来流畅、直观的浏览体验。

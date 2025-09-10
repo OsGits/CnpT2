@@ -58,9 +58,12 @@
 
         <div class="video-list">
 
-            {maccms:vod num="20" paging="yes" pageurl="index/index" type="" order="desc" by="time" level="1,2,3,4,5,6,7,8,9"} 
+            <!--推荐设置-->
+			{maccms:vod num="20" paging="yes" pageurl="index/index" type="" order="desc" by="time" level="1,2,3,4,5,6,7,8,9"} 
             {include file="index/txt"}  
             {/maccms:vod} 
+			
+			<!--最新循环-->
             {maccms:vod num="80" paging="yes" pageurl="index/index" type="" order="desc" by="time" level=""} 
             {include file="index/txt"}  
             {/maccms:vod}    
